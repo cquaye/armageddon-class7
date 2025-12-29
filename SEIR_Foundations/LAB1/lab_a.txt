@@ -95,10 +95,10 @@ Student Deliverables:
   EC2 role attached
   /list output showing at least 3 notes
 
-Short answers:
-A) Why is DB inbound source restricted to the EC2 security group?
-B) What port does MySQL use?
-C) Why is Secrets Manager better than storing creds in code/user-data?
+2) Short answers:
+  A) Why is DB inbound source restricted to the EC2 security group?
+  B) What port does MySQL use?
+  C) Why is Secrets Manager better than storing creds in code/user-data?
 
 
 
