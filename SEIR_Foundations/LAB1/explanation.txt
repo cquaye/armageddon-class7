@@ -1,0 +1,107 @@
+EC2 → RDS Integration Lab
+
+Foundational Cloud Application Pattern
+
+1) Project Overview (What You Are Building)
+  In this lab, you will build a classic cloud application architecture:
+  A compute layer running on an Amazon EC2 instance
+  A managed relational database hosted on Amazon RDS
+  Secure connectivity between the two using VPC networking and security groups
+  Credential management using AWS Secrets Manager
+  A simple application that writes and reads data from the database
+
+The application itself is intentionally minimal.
+The learning value is not the app, but the cloud infrastructure pattern it demonstrates.
+
+This pattern appears in:
+  Internal enterprise tools
+  SaaS products
+  Backend APIs
+  Legacy modernization projects
+  Lift-and-shift workloads
+  Cloud security assessments
+
+If you can build and verify this pattern, you understand the foundation of real AWS workloads.
+
+2) Why This Lab Exists (Industry Context)
+This Is One of the Most Common Interview Architectures
+Employers routinely expect engineers to understand:
+  How EC2 communicates with RDS
+  How database access is restricted
+  Where credentials are stored
+  How connectivity is validated
+  How failures are debugged
+
+You will encounter variations of this question in:
+  AWS Solutions Architect interviews
+  Cloud Security roles
+  DevOps and SRE interviews
+  Incident response scenarios
+
+If you cannot explain this pattern clearly, you will struggle in real cloud environments.
+
+3) Why This Pattern Matters to the Workforce
+What Employers Are Actually Testing
+This lab evaluates whether you understand:
+
+Skill	Why                 It Matters
+Security Groups	          Primary AWS network security boundary
+Least Privilege	          Prevents credential leakage & lateral movement
+Managed Databases	        Operational responsibility vs infrastructure
+IAM Roles	                Eliminates static credentials
+Application-to-DB Trust	  Core of backend security
+
+This is not a toy problem. This is how real systems are built.
+
+4) Architectural Design (Conceptual)
+Logical Flow
+1. A user sends an HTTP request to an EC2 instance
+2. The EC2 application:
+    Retrieves database credentials from Secrets Manager
+    Connects to the RDS MySQL endpoint
+3. Data is written to or read from the database
+4. Results are returned to the user
+
+Security Model
+  RDS is not publicly accessible
+  RDS only allows inbound traffic from the EC2 security group
+  EC2 retrieves credentials dynamically via IAM role
+  No passwords are stored in code or AMIs
+
+This is intentional friction — security is part of the design.
+
+5) Expected Deliverables (What You Must Produce)
+Each student must submit:
+
+A. Infrastructure Proof
+  1) EC2 instance running and reachable over HTTP
+  2) RDS MySQL instance in the same VPC
+  3) Security group rule showing:
+    RDS inbound TCP 3306
+    Source = EC2 security group (not 0.0.0.0/0)
+  IAM role attached to EC2 allowing Secrets Manager access
+
+B. Application Proof
+  1) Successful database initialization
+  2) Ability to insert records into RDS
+  3) Ability to read records from RDS
+
+C. Verification Evidence
+  1) CLI output proving connectivity and configuration
+  2) Browser output showing database data
+
+6. Technical Verification Using AWS CLI (Mandatory)
+You are expected to prove your work using the CLI — not screenshots alone.
+
+6.1 Verify EC2 Instance
+aws ec2 describe-instances \
+  --filters "Name=tag:Name,Values=lab-ec2-app" \
+  --query "Reservations[].Instances[].InstanceId"
+Expected:
+  Instance ID returned
+  Instance state = running
+
+
+
+
+
